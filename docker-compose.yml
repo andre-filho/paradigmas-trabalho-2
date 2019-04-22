@@ -1,0 +1,7 @@
+version: "3"
+services: 
+  prolog:
+    build: .
+    volumes: 
+      - .:/paradigmas
+    command: /bin/bash
