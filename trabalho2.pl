@@ -1,3 +1,5 @@
+:- dynamic language/7.
+
 language(c, '.c', 1, 4, 3, [application, sys, general_purpose, low_level_operations], [multiple]).
 language(c_plus_plus, '.cpp', 1.5, 5, 3, [application, sys], [multiple]).
 language(c_sharp, '.cs', 3, 4, 4, [application, rad, business, client_side, general, server_side, web], [multiple]).
@@ -48,7 +50,7 @@ worstperformance([H|T], Ling):-
 goodfor(Ling, Use):-
 	language(Ling, _, _, _, _, X, _),	find_type(X, Use).
 
-find_type([H|T], Type):-
+find_type([H|_], Type):-
   H = Type, !.
 
 find_type([H|T], Type):-
@@ -59,14 +61,15 @@ goodsfor(Lings, Use, L):-
 	bagof(Lings, goodfor(Lings, Use), L).
 
 menu :-
-  write('Welcome!'),nl,
+  nl,nl,
   write('Please choose one of the following functions to be executed...'), nl,nl,
   write('Press \'1\' to run bestPerformance comparisson.'), nl,
   write('Press \'2\' to run worst performance comparisson between languages.'), nl,
   write('Press \'3\' to see what languages are good for a project scope.'), nl,
-  write('Press \'4\' to quit.'), nl, nl,
+  write('Press \'4\' to add a new language to database.'), nl,
+  write('Press \'5\' to quit.'), nl, nl,
   write('Enter your choice:'), nl,
-  read(Choice), Choice>0, Choice=<4,
+  read(Choice), Choice>0, Choice=<5,
   doit(Choice), menu.
 
 end :- break.
@@ -86,7 +89,25 @@ doit(2):-
 doit(3):-
   write('You chose #3.'), nl,
   write('Enter the scope of your project (Ex.: web_application, web, etc):'), nl,
-  read(Scope), goodsfor(A, Scope, Lang),
+  read(Scope), goodsfor(_, Scope, Lang),
   write('Languages that might be good for you: '), write(Lang), nl, nl.
 
-doit(4):- end.
+doit(4):-
+  write('Please insert the name of the language: '), nl,
+  read(Name), nl,
+  write('Please insert the file extension of the language: '), nl,
+  read(Ext), nl,
+  write('Please insert the performance factor of the language: '), nl,
+  read(P), nl,
+  write('Please insert the sintax easiness factor of the language: '), nl,
+  read(S), nl,
+  write('Please insert the learning curve factor of the language: '), nl,
+  read(L), nl,
+  write('Please insert a list of things that the lang is good for: '), nl,
+  read(T), nl,
+  write('Please insert a list of paradigms of the language: '), nl,
+  read(Pa), nl,
+  assert(language(Name, Ext, P,S,L,T,Pa)), nl,
+  write('Language successfully saved!'), nl.
+
+doit(5):- end.
