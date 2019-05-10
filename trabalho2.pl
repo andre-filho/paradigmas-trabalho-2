@@ -1,5 +1,3 @@
-
-
 language(c, '.c', 1, 4, 3, [application, sys, general_purpose, low_level_operations], [multiple]).
 language(c_plus_plus, '.cpp', 1.5, 5, 3, [application, sys], [multiple]).
 language(c_sharp, '.cs', 3, 4, 4, [application, rad, business, client_side, general, server_side, web], [multiple]).
@@ -60,5 +58,35 @@ find_type([H|T], Type):-
 goodsfor(Lings, Use, L):-
 	bagof(Lings, goodfor(Lings, Use), L).
 
+menu :-
+  write('Welcome!'),nl,
+  write('Please choose one of the following functions to be executed...'), nl,nl,
+  write('Press \'1\' to run bestPerformance comparisson.'), nl,
+  write('Press \'2\' to run worst performance comparisson between languages.'), nl,
+  write('Press \'3\' to see what languages are good for a project scope.'), nl,
+  write('Press \'4\' to quit.'), nl, nl,
+  write('Enter your choice:'), nl,
+  read(Choice), Choice>0, Choice=<4,
+  doit(Choice), menu.
 
+end :- break.
 
+doit(1):-
+  write('You chose #1.'), nl,
+  write('Enter a list of languages to retrive those with the best performance of them:'), nl,
+  read(List), bestPerformance(List, Lang),
+  write('The one with the best performance is: '), write(Lang), nl, nl.
+
+doit(2):-
+  write('You chose #2.'), nl,
+  write('Enter a list of languages to retrive those with the worst performance of them:'), nl,
+  read(List), worstperformance(List, Lang),
+  write('The one with the worst performance is: '), write(Lang), nl, nl.
+
+doit(3):-
+  write('You chose #3.'), nl,
+  write('Enter the scope of your project (Ex.: web_application, web, etc):'), nl,
+  read(Scope), goodsfor(A, Scope, Lang),
+  write('Languages that might be good for you: '), write(Lang), nl, nl.
+
+doit(4):- end.
